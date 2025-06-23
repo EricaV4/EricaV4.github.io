@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NekoC1icker</title>
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --primary-dark: #1565c0;
+            --background: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text: #e0e0e0;
+            --border: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #141432 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(30, 136, 229, 0.4);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: rgba(26, 26, 42, 0.8);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(51, 51, 85, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(51, 51, 85, 0.5);
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 120px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .feature {
+            background: rgba(30, 30, 50, 0.6);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 136, 229, 0.1) 0%, transparent 100%);
+            z-index: -1;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+        
+        .feature p {
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+        
+        .screenshots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .screenshot {
+            width: 100%;
+            max-width: 550px;
+            border-radius: 12px;
+            border: 1px solid rgba(51, 51, 85, 0.5);
+            background: #222233;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            display: block;
+            border-bottom: 1px solid rgba(51, 51, 85, 0.5);
+        }
+        
+        .screenshot .caption {
+            padding: 15px;
+            text-align: center;
+            font-size: 1rem;
+            color: #aaa;
+            background: rgba(20, 20, 35, 0.7);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(25deg);
+            transition: all 0.4s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(30, 136, 229, 0.5);
+        }
+        
+        .btn:hover::after {
+            left: 120%;
+        }
+        
+        .btn-download {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-download:hover {
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+        
+        .version-badge {
+            background: rgba(30, 136, 229, 0.2);
+            color: #64B5F6;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-left: 15px;
+            border: 1px solid rgba(30, 136, 229, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(51, 51, 85, 0.5);
+            color: #777;
+            font-size: 0.95rem;
+        }
+        
+        .note {
+            background: rgba(255, 152, 0, 0.1);
+            border-left: 4px solid #FF9800;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .note p {
+            margin-bottom: 8px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: inline-block;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .changelog {
+            margin-left: 20px;
+        }
+        
+        .changelog li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .changelog li::before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+            font-size: 1.4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .screenshot {
+                max-width: 100%;
+            }
+            
+            .screenshots {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🐾 NekoC1icker</div>
+            <h1>Minecraft 自动连点工具 <span class="version-badge">Beta 1.0.0 测试版</span></h1>
+            <p class="subtitle">适用于 Minecraft 及网页版 Minecraft 的实用点击工具</p>
+            <p>轻量级设计 · 多游戏适配 · 可定制点击模式</p>
+        </header>
+        
+        <div class="card">
+            <h2>功能特点</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <h3>基础点击功能</h3>
+                    <p>• 左右键独立设置点击频率</p>
+                    <p>• 可调整 CPS 范围 (1-20 CPS)</p>
+                    <p>• 三种触发模式: 持续/按住/切换</p>
+                    <p>• 光标位置检查功能</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>游戏适配优化</h3>
+                    <p>• 原生支持 Minecraft 游戏</p>
+                    <p>• 网页版 Minecraft 适配</p>
+                    <p>• 背包内工作模式</p>
+                    <p>• 多版本游戏兼容</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>随机化设置</h3>
+                    <p>• 点击频率随机波动</p>
+                    <p>• CPS 峰值/下降几率调节</p>
+                    <p>• 高级随机化参数设置</p>
+                    <p>• 自然点击模式模拟</p>
+                </div>
+                
+
+                
+                <div class="feature">
+                    <h3>界面与设置</h3>
+                    <p>• 自定义界面主题色</p>
+                    <p>• 实时显示 CPS/FPS</p>
+                    <p>• 配置文件管理系统</p>
+                    <p>• 多标签页布局</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>高级功能</h3>
+                    <p>• 手机网页调整设置</p>
+                    <p>• 窗口隐藏与置顶</p>
+                    <p>• 自毁保护机制</p>
+                    <p>• 反OBS与截图</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>软件界面</h2>
+            <div class="screenshots">
+                <div class="screenshot">
+                    <img src="demo1.png" alt="NekoClicker 主界面">
+                    <div class="caption">主控制界面 - 点击设置和随机化选项</div>
+                </div>
+                
+                <div class="screenshot">
+                    <img src="demo2.png" alt="NekoClicker 设置界面">
+                    <div class="caption">设置面板 - 外观调整和隐私选项</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>使用说明</h2>
+            <p>NekoClicker 设计用于在 Minecraft 和类似网页游戏（如 bloxd.io）中提供自动点击功能。</p>
+            
+            <h3 style="margin-top:30px;">基本设置步骤：</h3>
+            <p>1. <span class="highlight">自动点击</span>标签页：设置所需的 CPS 值，在焦点设置选中窗口</p>
+            <p>2. <span class="highlight">快捷键设置</span>：配置触发键和背包开关快捷键</p>
+            <p>3. <span class="highlight">随机化设置</span>：调整波动参数使点击更自然</p>
+            <p>4. <span class="highlight">设置</span>标签页：配置隐私选项和界面主题</p>
+			<p>5. <span class="highlight">配置文件</span>标签页：在下方输入配置名称点击新建后选择配置并保存</p>
+            <p>6. 享受游戏!</p>
+			
+            <h3 style="margin-top:30px;">注意事项：</h3>
+            <div class="note">
+                <p>• 合理设置 CPS 值，过高频率可能会被反作弊检测</p>
+                <p>• 不同游戏服务器可能有不同的反作弊来检测自动点击</p>
+                <p>• 在单人游戏或私人服务器中使用效果最佳</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 35px;">
+                <a href="https://gitee.com/Akumas/neko-clicker/releases/download/beta1.0.0/Nekoc1icker.exe" class="btn btn-download" download="NekoClicker.exe">下载 NekoClicker (Windows)</a>
+            </div>
+
+        </div>
+        
+        <div class="card">
+            <h2>更新日志</h2>
+            <p><strong>Alpha 1.0.3 更新内容：</strong></p>
+            <ul class="changelog">
+                <li>新增光标位置检测功能</li>
+                <li>优化背包内工作模式的检测逻辑</li>
+                <li>改进进程挂起/恢复的稳定性</li>
+                <li>修复配置文件加载问题</li>
+                <li>增强界面元素布局和响应性</li>
+            </ul>
+            
+            <p style="margin-top:30px;"><strong>Alpha 1.0.2 更新内容：</strong></p>
+            <ul class="changelog">
+                <li>添加CPS/FPS显示选项</li>
+                <li>改进随机窗口名称功能</li>
+                <li>优化进程管理逻辑</li>
+                <li>修复快捷键冲突问题</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 NekoClicker 工具 | 仅供个人学习研究使用</p>
+            <p>软件处于内部测试阶段，功能可能会进行调整</p>
+            <p style="margin-top:15px; font-size:0.9rem; color:#666">
+                免责声明：本工具仅用于单机游戏或私人服务器，禁止在多人公共服务器使用
+            </p>
+        </div>
+    </div>
+</body>
+</html>
